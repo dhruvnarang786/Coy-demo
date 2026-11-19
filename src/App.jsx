@@ -8,7 +8,7 @@ import MatchModal from './components/MatchModal.jsx';
 import ProfileSkeleton from './components/ProfileSkeleton.jsx';
 import ToastNotification from './components/ToastNotification.jsx';
 
-const DEMO_AVATAR = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80';
+const DEMO_AVATAR = '/images/demo-user.jpg';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('discover');

@@ -9,6 +9,7 @@
     "client:dev": "vite",
     "build": "vite build",
     "test": "node --test",
+    "demo:reset": "node server/demo-reset.js",
     "start": "node server/index.js"
   },
   "dependencies": {

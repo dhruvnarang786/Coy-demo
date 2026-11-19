@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import fs from 'node:fs';
@@ -73,10 +74,18 @@ test('API validates swipes, matches mutually, and persists state across restarts
   assert.equal(initialFeed.profiles.length, 32);
   assert.equal(new Set(initialFeed.profiles.map((profile) => profile.id)).size, 32);
   assert.equal(new Set(initialFeed.profiles.map((profile) => profile.name)).size, 32);
+  assert.equal(new Set(initialFeed.profiles.map((profile) => profile.photo)).size, 32);
+  const photoHashes = initialFeed.profiles.map((profile) => {
+    assert.equal(profile.photo, `/images/profiles/${profile.id}.jpg`);
+    const photo = fs.readFileSync(path.join(root, 'public', profile.photo.slice(1)));
+    assert.deepEqual([...photo.subarray(0, 2)], [0xff, 0xd8]);
+    return createHash('sha256').update(photo).digest('hex');
+  });
+  assert.equal(new Set(photoHashes).size, 32);
   assert.ok(initialFeed.profiles.some((profile) => profile.id === 'ananya'));
   assert.ok(initialFeed.profiles.every((profile) =>
     profile.id && profile.name && Number.isInteger(profile.age) && profile.age >= 18
-    && profile.photo.startsWith('https://') && profile.bio && profile.location
+    && profile.bio && profile.location
     && Array.isArray(profile.interests) && profile.interests.length > 0));
   assert.ok(!JSON.stringify(initialFeed).includes('liked_demo'));
   assert.ok(!JSON.stringify(initialFeed).includes('likedDemo'));
