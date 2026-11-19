@@ -43,9 +43,9 @@ export default function MatchModal({ match, onClose, onViewMatches }) {
         <h2 id="match-title">It’s a Match!</h2>
         <p className="match-subtitle">You and {match.name} liked each other.</p>
         <div className="match-photos">
-          <motion.img initial={{ x: -28, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.12, type: 'spring', stiffness: 250, damping: 22 }} src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=280&q=85" alt="Your demo profile" />
+          <motion.img initial={{ x: -28, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.12, type: 'spring', stiffness: 250, damping: 22 }} src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=280&q=85" alt="Your demo profile" onError={(event) => { event.currentTarget.style.opacity = '0'; }} />
           <motion.div className="match-heart" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.25, type: 'spring', stiffness: 400, damping: 14 }}><Heart size={22} fill="currentColor" /></motion.div>
-          <motion.img initial={{ x: 28, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.12, type: 'spring', stiffness: 250, damping: 22 }} src={match.photo} alt={match.name} />
+          <motion.img initial={{ x: 28, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.12, type: 'spring', stiffness: 250, damping: 22 }} src={match.photo} alt={match.name} onError={(event) => { event.currentTarget.style.opacity = '0'; }} />
         </div>
         <button className="primary-button match-continue" onClick={onClose}><MessageCircle size={17} /> Keep discovering</button>
         <button className="match-view-button" onClick={onViewMatches}>View your matches <ArrowRight size={15} /></button>

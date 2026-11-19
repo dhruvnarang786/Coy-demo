@@ -4,10 +4,12 @@ import { fileURLToPath } from 'node:url';
 import Database from 'better-sqlite3';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const dataDirectory = path.join(here, 'data');
-fs.mkdirSync(dataDirectory, { recursive: true });
+const databasePath = process.env.COY_DATABASE_PATH
+  ? path.resolve(process.env.COY_DATABASE_PATH)
+  : path.join(here, 'data', 'coy.sqlite');
+fs.mkdirSync(path.dirname(databasePath), { recursive: true });
 
-export const db = new Database(path.join(dataDirectory, 'coy.sqlite'));
+export const db = new Database(databasePath);
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
@@ -45,6 +47,8 @@ const stalePhotoId = 'photo-1524503033411-f6b2cf0d2f3c';
 const stablePhotoId = 'photo-1534528741775-53994a69daeb';
 db.prepare('UPDATE profiles SET photo = REPLACE(photo, ?, ?) WHERE photo LIKE ?')
   .run(stalePhotoId, stablePhotoId, `%${stalePhotoId}%`);
+db.prepare('UPDATE profiles SET name = ? WHERE id = ? AND name = ?')
+  .run('Trisha', 'tara2', 'Tara');
 
 const profiles = [
   ['ananya', 'Ananya', 21, 'photo-1534528741775-53994a69daeb', 'Coffee lover, bookworm and always up for new adventures! ✨', 'Delhi University', ['Coffee', 'Books', 'Travel', 'Art'], 1],
@@ -78,7 +82,7 @@ const profiles = [
   ['alia', 'Alia', 20, 'photo-1524504388940-b1c1722653e1', 'Currently accepting recs for a new comfort podcast.', 'Bengaluru', ['Podcasts', 'Dogs', 'Baking', 'Nature'], 1],
   ['prisha', 'Prisha', 22, 'photo-1508214751196-bcfd4ca60f91', 'Morning person, but only after my first cup of coffee.', 'St. Xavier’s College', ['Coffee', 'Running', 'Photography', 'Sushi'], 0],
   ['suhana', 'Suhana', 23, 'photo-1531123897727-8f129e1688ce', 'A spontaneous road trip is always a good idea.', 'Pune', ['Road trips', 'Music', 'Hiking', 'Food'], 0],
-  ['tara2', 'Tara', 20, 'photo-1524041255072-7da0525d6b34', 'Somewhere between an introvert and the life of the party.', 'Hyderabad', ['Dancing', 'Art', 'Books', 'Coffee'], 0],
+  ['tara2', 'Trisha', 20, 'photo-1524041255072-7da0525d6b34', 'Somewhere between an introvert and the life of the party.', 'Hyderabad', ['Dancing', 'Art', 'Books', 'Coffee'], 0],
 ];
 
 const insertProfile = db.prepare(`

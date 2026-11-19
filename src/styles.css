@@ -58,8 +58,6 @@ main { width: 100%; max-width: 1120px; margin: auto; }
 .photo-wrap { position: relative; flex: 0 0 67%; min-height: 0; overflow: hidden; background: #e7ddd4; }
 .profile-photo { width: 100%; height: 100%; object-fit: cover; object-position: center 38%; pointer-events: none; }
 .photo-shade { position: absolute; inset: 24% 0 0; background: linear-gradient(180deg, transparent 15%, #1715110a 45%, #15120f99 100%); pointer-events: none; }
-.online-pill { position: absolute; top: 13px; right: 13px; display: flex; align-items: center; gap: 6px; border-radius: 20px; padding: 6px 10px; background: #fff; box-shadow: 0 3px 12px #00000014; font-size: 10px; font-weight: 700; }
-.online-pill span { width: 7px; height: 7px; border-radius: 50%; background: #45be78; }
 .swipe-stamp { position: absolute; top: 22px; border: 3px solid; border-radius: 10px; padding: 5px 9px; font: 800 20px 'Manrope', sans-serif; letter-spacing: 1px; }
 .like-stamp { left: 17px; color: #2ec99b; transform: rotate(-12deg); }
 .pass-stamp { right: 17px; color: var(--coral); transform: rotate(12deg); }
@@ -116,8 +114,7 @@ main { width: 100%; max-width: 1120px; margin: auto; }
 .match-row-info { flex: 1; min-width: 0; }
 .match-row-info h2 { margin: 0 0 4px; font: 700 14px 'Manrope', sans-serif; }
 .match-row-info p { margin: 0; color: var(--muted); font-size: 11px; }
-.message-button { display: grid; width: 40px; height: 40px; place-items: center; border: 0; border-radius: 50%; background: #e8f8f1; color: var(--mint); cursor: pointer; transition: transform .18s; }
-.message-button:hover { transform: scale(1.06); }
+.match-mark { display: grid; width: 38px; height: 38px; place-items: center; border-radius: 50%; background: #e8f8f1; color: var(--mint); }
 .empty-matches { margin-top: 62px; }
 .empty-matches .text-button { color: var(--mint); }
 .matches-loading { display: flex; gap: 7px; justify-content: center; padding: 55px 0; }

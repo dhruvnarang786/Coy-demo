@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, LayoutGroup, motion } from 'motion/react';
-import { ArrowRight, ChevronDown, Heart, MessageCircle, RotateCw, Sparkles, X } from 'lucide-react';
+import { ArrowRight, ChevronDown, Heart, RotateCw, Sparkles, X } from 'lucide-react';
+import { getFeed, getMatches, postSwipe } from './api.js';
 import ProfileCard from './components/ProfileCard.jsx';
 import BottomNav from './components/BottomNav.jsx';
 import MatchModal from './components/MatchModal.jsx';
@@ -8,13 +9,6 @@ import ProfileSkeleton from './components/ProfileSkeleton.jsx';
 import ToastNotification from './components/ToastNotification.jsx';
 
 const DEMO_AVATAR = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80';
-
-async function request(path, options) {
-  const response = await fetch(path, options);
-  const body = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(body.error || 'Something went wrong. Please try again.');
-  return body;
-}
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('discover');
@@ -37,7 +31,7 @@ export default function App() {
     setLoading(true);
     setError('');
     try {
-      const [feed, matchData] = await Promise.all([request('/feed'), request('/matches')]);
+      const [feed, matchData] = await Promise.all([getFeed(), getMatches()]);
       setProfiles(feed.profiles);
       setMatches(matchData.matches);
     } catch (loadError) {
@@ -61,11 +55,7 @@ export default function App() {
     setError('');
     setSwipeDirection(action === 'LIKE' ? 1 : -1);
     try {
-      const result = await request('/swipe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ profileId: topProfile.id, action }),
-      });
+      const result = await postSwipe(topProfile.id, action);
       setProfiles((current) => current.filter((profile) => profile.id !== topProfile.id));
       if (result.matched && result.match) {
         setMatches((current) => [result.match, ...current.filter((match) => match.id !== result.match.id)]);
@@ -153,7 +143,7 @@ export default function App() {
                           <h2>{match.name}, {match.age}</h2>
                           <p>{match.location}</p>
                         </div>
-                        <button className="message-button" aria-label={`Say hello to ${match.name}`} onClick={() => showToast(`Say hello to ${match.name}!`)}><MessageCircle size={19} /></button>
+                        <span className="match-mark" aria-label="Mutual match"><Heart size={17} fill="currentColor" /></span>
                       </motion.article>
                     ))}
                   </motion.div>

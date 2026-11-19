@@ -49,7 +49,6 @@ const ProfileCard = forwardRef(function ProfileCard({ profile, offset, swipeDire
       <div className="photo-wrap">
         <img className="profile-photo" src={profile.photo} alt={isTop ? `${profile.name}, ${profile.age}` : ''} draggable="false" onError={(event) => { event.currentTarget.style.opacity = '0'; }} />
         <div className="photo-shade" />
-        <div className="online-pill"><span /> Online</div>
         <motion.div className="swipe-stamp like-stamp" style={{ opacity: likeOpacity }} aria-hidden="true">LIKE</motion.div>
         <motion.div className="swipe-stamp pass-stamp" style={{ opacity: passOpacity }} aria-hidden="true">PASS</motion.div>
         <div className="photo-caption">

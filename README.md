@@ -25,6 +25,14 @@ npm start
 
 Open `http://localhost:3001`. SQLite data is stored in `server/data/coy.sqlite`; it is created and seeded on first start, and existing swipe and match data is retained on subsequent starts.
 
+The API port can be changed with `PORT`. `COY_DATABASE_PATH` optionally selects a different SQLite file; without it, the database remains at `server/data/coy.sqlite`. For a separate local API proxy target, set `COY_API_TARGET` before starting Vite.
+
+Run the backend integration tests with:
+
+```powershell
+npm test
+```
+
 ## Demo
 
 - Drag a profile card right to like or left to pass; desktop users can also use the circular action buttons.
